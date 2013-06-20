@@ -1,17 +1,23 @@
 package com.seven.segment.roadsign.blockdrop;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-public class MainThread extends Thread
+
+/**
+ * @author Kolijn Wolfaardt
+ * @version 0.1
+ */
+public class GameUpdateThread extends Thread
 {
 
 	// flag to hold game state
 	private SurfaceHolder mSurfaceHolder;
-	private MainPanel mGamePanel;
+	private GameSurface mGamePanel;
 	private Context mContext;
 
 	private long delay;
@@ -21,13 +27,11 @@ public class MainThread extends Thread
 	private Paint blackPaint;
 
 	// State of the Game
-	int state = 1;
-	public final static int RUNNING = 1;
-	public final static int PAUSED = 2;
+	boolean running = true;
 
-	private static final String TAG = MainThread.class.getSimpleName();
+	private static final String TAG = GameUpdateThread.class.getSimpleName();
 
-	public MainThread(SurfaceHolder surfaceHolder, MainPanel gamePanel, Context context)
+	public GameUpdateThread(SurfaceHolder surfaceHolder, GameSurface gamePanel, Context context)
 	{
 		super();
 		this.mSurfaceHolder = surfaceHolder;
@@ -36,21 +40,53 @@ public class MainThread extends Thread
 
 		blackPaint = new Paint();
 		blackPaint.setARGB(255, 0, 0, 0);
-		// mLinePaint.setAntiAlias(true);
+		
+		mLinePaint = new Paint();
+		mLinePaint.setARGB(255,255,0,0);
+		mLinePaint.setAntiAlias(true);
+	}
+	
+	/** 
+	 * Disables updating of the game.
+	 */
+	public void pauseThread()
+	{
+		this.running = false;
+	}
+	
+	/** 
+	 * Enables updating of the game.
+	 */
+	public void runThread()
+	{
+		this.running = true;
+	}
+	
+	/**
+	 * 
+	 * @return true is the game is paused
+	 */
+	public boolean isPaused()
+	{
+		return !running;
 	}
 
 	@Override
+	/** 
+	 * Runs the thread. Should only be called once, when the thread is created.
+	 * 
+	 * This function updates the game, draws it, and then sleeps for a given period.
+	 */
 	public void run()
 	{
-		Log.d(TAG, "Starting game loop");
-		while (state == RUNNING)
+		while (running == true)
 		{
 			// Measure the time before
 			long beforeTime = System.nanoTime();
 
-			// update();
+			//Update the Game
+			mGamePanel.update();
 
-			// draw();
 			Canvas c = null;
 			try
 			{
@@ -61,14 +97,17 @@ public class MainThread extends Thread
 				{
 					synchronized (mSurfaceHolder)
 					{
-						// clear the screen
+						//Clear the screen
 						c.drawRect(0, 0, c.getWidth(), c.getHeight(), blackPaint);
-						// draw();
+						
+						//And render the Graphics
+						mGamePanel.render(c);
 					}
 				}
 			}
 			catch (Exception e)
 			{
+				// TODO: Canvas Drawing Exception Handler
 				Log.d(TAG,"Error in drawing" + e.toString());
 			}
 			finally
@@ -93,7 +132,7 @@ public class MainThread extends Thread
 			}
 			catch (InterruptedException ex)
 			{
-				// TODO: Exception Handler
+				// TODO: Thread sleeping Exception Handler
 				Log.d(TAG, "Exited from sleeping with error: " + ex);
 			}
 		}

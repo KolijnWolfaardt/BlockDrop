@@ -9,19 +9,22 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class MainPanel extends SurfaceView implements SurfaceHolder.Callback
+public class GameSurface extends SurfaceView implements SurfaceHolder.Callback
 {
-	private MainThread drawThread;
+	private GameUpdateThread drawThread;
 	
-	private static final String TAG = MainPanel.class.getSimpleName();
+	private static final String TAG = GameSurface.class.getSimpleName();
+	
+	int boxX = 10;
+	int boxY = 10;
 
-	public MainPanel(Context context)
+	public GameSurface(Context context)
 	{
 		super(context);
 		
 		getHolder().addCallback(this);
 
-		drawThread = new MainThread(getHolder(), this, context);
+		drawThread = new GameUpdateThread(getHolder(), this, context);
 
 		setFocusable(true);
 	}
@@ -37,11 +40,10 @@ public class MainPanel extends SurfaceView implements SurfaceHolder.Callback
 	//Overridden from android.view.SurfaceHolder.Callback
 	public void surfaceCreated(SurfaceHolder holder)
 	{
-		//Check if the thread is started
-		//TODO: Change this to use get/set
-		if (drawThread.state==MainThread.PAUSED)
+		//Check if the thread is paused. If it is, recreate it.
+		if (drawThread.isPaused())
 		{
-			drawThread = new MainThread(getHolder(), this, this.getContext());
+			drawThread = new GameUpdateThread(getHolder(), this, this.getContext());
 			drawThread.start();
 		}
 		else
@@ -56,8 +58,7 @@ public class MainPanel extends SurfaceView implements SurfaceHolder.Callback
 	{
 		//Try to join the drawThread thread
 		boolean retry = true;
-		//TODO: Change this to use get/set methods
-		drawThread.state=MainThread.PAUSED;
+		drawThread.pauseThread();
 		while (retry)
 		{
 			try
@@ -76,14 +77,9 @@ public class MainPanel extends SurfaceView implements SurfaceHolder.Callback
 	{
 		if (event.getAction() == MotionEvent.ACTION_DOWN)
 		{
-			if (event.getY() > getHeight() - 50)
-			{
-				((Activity) getContext()).finish();
-			}
-			else
-			{
-				Log.d(TAG, "Coords: x=" + event.getX() + ",y=" + event.getY());
-			}
+			Log.d(TAG, "Coords: x=" + event.getX() + ",y=" + event.getY());
+			boxX = (int) event.getX();
+			boxY = (int) event.getY();
 		}
 		return super.onTouchEvent(event);
 	}
@@ -92,5 +88,14 @@ public class MainPanel extends SurfaceView implements SurfaceHolder.Callback
 	protected void onDraw(Canvas canvas)
 	{
 
+	}
+	
+	public void update()
+	{
+	}
+	
+	public void render(Canvas c)
+	{
+		c.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.r_bock), boxX, boxY, null);
 	}
 }

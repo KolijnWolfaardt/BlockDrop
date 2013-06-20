@@ -1,5 +1,9 @@
 package com.seven.segment.roadsign.blockdrop;
 
+//
+//Handy for the emulator ^(?!.*(nativeGetEnabledTags)).*$ 
+//
+
 import android.os.Bundle;
 import android.app.Activity;
 
@@ -9,7 +13,7 @@ public class MainMenu extends Activity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(new MainPanel(this));
+        setContentView(new GameSurface(this));
     }
     
     @Override
