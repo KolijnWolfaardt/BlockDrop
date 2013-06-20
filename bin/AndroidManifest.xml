@@ -15,7 +15,9 @@
         android:theme="@android:style/Theme.Holo.NoActionBar" >
         <activity
             android:name="com.seven.segment.roadsign.blockdrop.MainMenu"
-            android:label="@string/app_name" >
+            android:alwaysRetainTaskState="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
