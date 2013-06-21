@@ -17,14 +17,20 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback
 	
 	int boxX = 10;
 	int boxY = 10;
+	private GameEngine ge;
 
 	public GameSurface(Context context)
 	{
 		super(context);
 		
+		//Add Callback for SurfaceHolder.callback
 		getHolder().addCallback(this);
+		
+		//Create the gameEngine
+		ge = new GameEngine(this);
 
-		drawThread = new GameUpdateThread(getHolder(), this, context);
+		//Create the game Loop Thread
+		drawThread = new GameUpdateThread(getHolder(), this, ge);
 
 		setFocusable(true);
 	}
@@ -43,7 +49,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback
 		//Check if the thread is paused. If it is, recreate it.
 		if (drawThread.isPaused())
 		{
-			drawThread = new GameUpdateThread(getHolder(), this, this.getContext());
+			drawThread = new GameUpdateThread(getHolder(), this, ge);
 			drawThread.start();
 		}
 		else

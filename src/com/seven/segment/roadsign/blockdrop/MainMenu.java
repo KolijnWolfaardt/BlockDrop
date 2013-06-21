@@ -5,21 +5,27 @@ package com.seven.segment.roadsign.blockdrop;
 //
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.app.Activity;
 
-public class MainMenu extends Activity {
+public class MainMenu extends Activity
+{
+	Button leftButton;
+	Button rightButton;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(new GameSurface(this));
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(new GameSurface(this));
-    }
-    
-    @Override
-    protected void onStart()
-    {
-   	 super.onStart();
-    }
-    
+		leftButton = new Button(this);
+	}
+
+	@Override
+	protected void onStart()
+	{
+		super.onStart();
+	}
+
 }

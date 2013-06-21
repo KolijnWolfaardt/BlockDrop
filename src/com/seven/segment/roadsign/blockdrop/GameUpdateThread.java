@@ -18,12 +18,11 @@ public class GameUpdateThread extends Thread
 	// flag to hold game state
 	private SurfaceHolder mSurfaceHolder;
 	private GameSurface mGamePanel;
-	private Context mContext;
+	private GameEngine mGameEngine;
 
 	private long delay;
 	private long sleepTime = 70;
 
-	private Paint mLinePaint;
 	private Paint blackPaint;
 
 	// State of the Game
@@ -31,19 +30,15 @@ public class GameUpdateThread extends Thread
 
 	private static final String TAG = GameUpdateThread.class.getSimpleName();
 
-	public GameUpdateThread(SurfaceHolder surfaceHolder, GameSurface gamePanel, Context context)
+	public GameUpdateThread(SurfaceHolder surfaceHolder, GameSurface gamePanel,GameEngine gameEngine)
 	{
 		super();
 		this.mSurfaceHolder = surfaceHolder;
 		this.mGamePanel = gamePanel;
-		this.mContext = context;
+		this.mGameEngine = gameEngine;
 
 		blackPaint = new Paint();
 		blackPaint.setARGB(255, 0, 0, 0);
-		
-		mLinePaint = new Paint();
-		mLinePaint.setARGB(255,255,0,0);
-		mLinePaint.setAntiAlias(true);
 	}
 	
 	/** 
@@ -85,7 +80,7 @@ public class GameUpdateThread extends Thread
 			long beforeTime = System.nanoTime();
 
 			//Update the Game
-			mGamePanel.update();
+			mGameEngine.update();
 
 			Canvas c = null;
 			try
@@ -101,7 +96,7 @@ public class GameUpdateThread extends Thread
 						c.drawRect(0, 0, c.getWidth(), c.getHeight(), blackPaint);
 						
 						//And render the Graphics
-						mGamePanel.render(c);
+						mGameEngine.render(c);
 					}
 				}
 			}
