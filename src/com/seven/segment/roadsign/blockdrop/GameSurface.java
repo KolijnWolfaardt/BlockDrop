@@ -2,8 +2,10 @@ package com.seven.segment.roadsign.blockdrop;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -12,9 +14,9 @@ import android.view.SurfaceView;
 public class GameSurface extends SurfaceView implements SurfaceHolder.Callback
 {
 	private GameUpdateThread drawThread;
-	
+
 	private static final String TAG = GameSurface.class.getSimpleName();
-	
+
 	int boxX = 10;
 	int boxY = 10;
 	private GameEngine ge;
@@ -22,31 +24,42 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback
 	public GameSurface(Context context)
 	{
 		super(context);
-		
-		//Add Callback for SurfaceHolder.callback
+
+		// Add Callback for SurfaceHolder.callback
 		getHolder().addCallback(this);
-		
-		//Create the gameEngine
+
+		// Create the gameEngine
 		ge = new GameEngine(this);
 
-		//Create the game Loop Thread
+		// Create the game Loop Thread
 		drawThread = new GameUpdateThread(getHolder(), this, ge);
 
 		setFocusable(true);
 	}
 
-	@Override
-	//Overridden from android.view.SurfaceHolder.Callback
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
+	public GameSurface(Context context, AttributeSet attrs)
 	{
-		
+		super(context);
+		TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.GameSurface);
+
+		Log.i("test", a.getString(R.styleable.GameSurface_android_padding));
+
+		// Don't forget this
+		a.recycle();
 	}
 
 	@Override
-	//Overridden from android.view.SurfaceHolder.Callback
+	// Overridden from android.view.SurfaceHolder.Callback
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
+	{
+
+	}
+
+	@Override
+	// Overridden from android.view.SurfaceHolder.Callback
 	public void surfaceCreated(SurfaceHolder holder)
 	{
-		//Check if the thread is paused. If it is, recreate it.
+		// Check if the thread is paused. If it is, recreate it.
 		if (drawThread.isPaused())
 		{
 			drawThread = new GameUpdateThread(getHolder(), this, ge);
@@ -59,10 +72,10 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback
 	}
 
 	@Override
-	//Overridden from android.view.SurfaceHolder.Callback
+	// Overridden from android.view.SurfaceHolder.Callback
 	public void surfaceDestroyed(SurfaceHolder holder)
 	{
-		//Try to join the drawThread thread
+		// Try to join the drawThread thread
 		boolean retry = true;
 		drawThread.pauseThread();
 		while (retry)
@@ -95,11 +108,11 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback
 	{
 
 	}
-	
+
 	public void update()
 	{
 	}
-	
+
 	public void render(Canvas c)
 	{
 		c.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.r_bock), boxX, boxY, null);

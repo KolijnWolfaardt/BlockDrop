@@ -9,6 +9,14 @@ package com.seven.segment.roadsign.blockdrop;
 
 public final class R {
     public static final class attr {
+        /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int extraInformation=0x7f010000;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -27,7 +35,8 @@ public final class R {
         public static final int r_bock=0x7f020003;
     }
     public static final class id {
-        public static final int action_settings=0x7f080000;
+        public static final int RelativeLayout1=0x7f080000;
+        public static final int action_settings=0x7f080001;
     }
     public static final class layout {
         public static final int activity_main_menu=0x7f030000;
@@ -58,4 +67,41 @@ public final class R {
          */
         public static final int AppTheme=0x7f060001;
     }
+    public static final class styleable {
+        /** Attributes that can be used with a GameSurface.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #GameSurface_android_padding com.seven.segment.roadsign.blockdrop:android_padding}</code></td><td></td></tr>
+           <tr><td><code>{@link #GameSurface_extraInformation com.seven.segment.roadsign.blockdrop:extraInformation}</code></td><td></td></tr>
+           </table>
+           @see #GameSurface_android_padding
+           @see #GameSurface_extraInformation
+         */
+        public static final int[] GameSurface = {
+            0x010100d5, 0x7f010000
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.seven.segment.roadsign.blockdrop.R.attr#android_padding}
+          attribute's value can be found in the {@link #GameSurface} array.
+          @attr name android:android_padding
+        */
+        public static final int GameSurface_android_padding = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.seven.segment.roadsign.blockdrop.R.attr#extraInformation}
+          attribute's value can be found in the {@link #GameSurface} array.
+
+
+          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:extraInformation
+        */
+        public static final int GameSurface_extraInformation = 1;
+    };
 }
