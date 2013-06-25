@@ -23,7 +23,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback
 	public GameSurface(Context context)
 	{
 		super(context);
-		startThread();
+		//startThread();
 
 	}
 
@@ -38,7 +38,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback
 		// Don't forget this
 		a.recycle();*/
 		
-		startThread();
+		//startThread();
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback
 		// Create the game Loop Thread
 		drawThread = new GameUpdateThread(getHolder(), this, ge);
 		
-		drawThread.run();
+		//drawThread.run();
 
 		setFocusable(true);
 	}

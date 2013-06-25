@@ -74,6 +74,7 @@ public class GameUpdateThread extends Thread
 	 */
 	public void run()
 	{
+		Log.d("BLOCK","Thread Started Running");
 		while (running == true)
 		{
 			// Measure the time before

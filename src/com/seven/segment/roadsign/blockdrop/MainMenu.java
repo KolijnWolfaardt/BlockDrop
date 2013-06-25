@@ -5,6 +5,7 @@ package com.seven.segment.roadsign.blockdrop;
 //
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.app.Activity;
 
@@ -21,7 +22,10 @@ public class MainMenu extends Activity
 		setContentView(R.layout.activity_main_menu);
 		
 		//First, let's find the gamesurface
-		//GameSurface gs = (GameSurface) findViewById(R.id.gameSurface1);
+		GameSurface gs = (GameSurface) findViewById(R.id.gameSurface1);
+		Log.d("BLOCK","Started Thread");
+		gs.startThread();
+		
 		
 		/*
 		//First, let's get a handle on the Layout
