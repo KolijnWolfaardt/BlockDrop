@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.ViewGroup.LayoutParams;
 
 public class GameSurface extends SurfaceView implements SurfaceHolder.Callback
 {
@@ -17,14 +18,38 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback
 
 	private static final String TAG = GameSurface.class.getSimpleName();
 
-	int boxX = 10;
-	int boxY = 10;
 	private GameEngine ge;
 
 	public GameSurface(Context context)
 	{
 		super(context);
+		startThread();
 
+	}
+
+	public GameSurface(Context context, AttributeSet attrs)
+	{
+		super(context,attrs);
+		
+		/*TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.GameSurface);
+
+		Log.i("test", a.getString(R.styleable.GameSurface_android_padding));
+
+		// Don't forget this
+		a.recycle();*/
+		
+		startThread();
+	}
+
+	@Override
+	// Overridden from android.view.SurfaceHolder.Callback
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
+	{
+
+	}
+	
+	public void startThread()
+	{
 		// Add Callback for SurfaceHolder.callback
 		getHolder().addCallback(this);
 
@@ -33,26 +58,10 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback
 
 		// Create the game Loop Thread
 		drawThread = new GameUpdateThread(getHolder(), this, ge);
+		
+		drawThread.run();
 
 		setFocusable(true);
-	}
-
-	public GameSurface(Context context, AttributeSet attrs)
-	{
-		super(context);
-		TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.GameSurface);
-
-		Log.i("test", a.getString(R.styleable.GameSurface_android_padding));
-
-		// Don't forget this
-		a.recycle();
-	}
-
-	@Override
-	// Overridden from android.view.SurfaceHolder.Callback
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
-	{
-
 	}
 
 	@Override
@@ -97,8 +106,6 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback
 		if (event.getAction() == MotionEvent.ACTION_DOWN)
 		{
 			Log.d(TAG, "Coords: x=" + event.getX() + ",y=" + event.getY());
-			boxX = (int) event.getX();
-			boxY = (int) event.getY();
 		}
 		return super.onTouchEvent(event);
 	}
@@ -107,14 +114,5 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback
 	protected void onDraw(Canvas canvas)
 	{
 
-	}
-
-	public void update()
-	{
-	}
-
-	public void render(Canvas c)
-	{
-		c.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.r_bock), boxX, boxY, null);
 	}
 }

@@ -5,10 +5,7 @@ package com.seven.segment.roadsign.blockdrop;
 //
 
 import android.os.Bundle;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.app.Activity;
 
 public class MainMenu extends Activity
@@ -23,6 +20,10 @@ public class MainMenu extends Activity
 		
 		setContentView(R.layout.activity_main_menu);
 		
+		//First, let's find the gamesurface
+		//GameSurface gs = (GameSurface) findViewById(R.id.gameSurface1);
+		
+		/*
 		//First, let's get a handle on the Layout
 		RelativeLayout layout = (RelativeLayout) findViewById(R.id.RelativeLayout1);
 		layout.setPadding(0, 0, 0, 0);
@@ -37,7 +38,7 @@ public class MainMenu extends Activity
 		leftButton.setText("Left");
 		leftButton.setPadding(0, 0, 0, 0);
 		leftButton.setLayoutParams(new ViewGroup.LayoutParams(300,50));
-		layout.addView(leftButton);
+		layout.addView(leftButton);*/
 	}
 
 	@Override
